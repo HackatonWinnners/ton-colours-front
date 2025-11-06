@@ -31,6 +31,16 @@ export const Link: FC<LinkProps> = ({
       || targetUrl.host !== currentUrl.host;
 
     if (isExternal) {
+      const isGetgems = /(^|\.)getgems\.io$/i.test(targetUrl.host);
+      if (isGetgems) {
+        const ok = window.confirm(
+          'Are you sure you want to open the collection on GetGems?'
+        );
+        if (!ok) {
+          e.preventDefault();
+          return;
+        }
+      }
       e.preventDefault();
       openLink(targetUrl.toString());
     }

@@ -1,14 +1,13 @@
 import { useMemo, useEffect, useState } from "react";
 import { initData, useSignal, openLink, isColorDark } from "@tma.js/sdk-react";
 import { TonConnectButton, useTonWallet } from "@tonconnect/ui-react";
-import { List, Section, Title, Text } from "@telegram-apps/telegram-ui";
+import { List, Section, Title, Text, Placeholder } from "@telegram-apps/telegram-ui";
 import { Page } from "@/components/Page.tsx";
 
 export default function ProfilePage() {
   const wallet = useTonWallet();
   const data = useSignal(initData.state);
   const [colors, setColors] = useState<string[]>([]);
-  
 
   const name = useMemo(() => {
     const u = data?.user;
@@ -27,17 +26,18 @@ export default function ProfilePage() {
       const raw = localStorage.getItem(`colors:${addr}`);
       const list = raw ? JSON.parse(raw) : [];
       const arr = Array.isArray(list) ? list : [];
-      setColors(arr.length ? arr : ["#6A0DAD", "#FF5A5F", "#00C2FF"]);
+      setColors(arr);
     } catch {
-      setColors(["#6A0DAD", "#FF5A5F", "#00C2FF"]);
+      setColors([]);
     }
   }, [wallet?.account?.address]);
-
-  
 
   return (
     <Page>
       <List>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <TonConnectButton />
+        </div>
         <Section>
           <div
             style={{
@@ -95,19 +95,34 @@ export default function ProfilePage() {
             )}
             <Title level="1">{name || "User"}</Title>
             <Text>{data?.user?.username ? `@${data.user.username}` : ""}</Text>
-            
           </div>
         </Section>
-        <TonConnectButton style={{ display: "block", width: "100%" }} />
 
         {wallet && colors.length > 0 && (
           <Section>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12, paddingTop: 8 }}>
-              <Title level="3" style={{ textAlign: "center" }}>Your Colours</Title>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 12,
+                paddingTop: 8,
+              }}
+            >
+              <Title level="3" style={{ textAlign: "center" }}>
+                Your Colours
+              </Title>
               {colors.map((c, i) => (
                 <div
                   key={`${c}-${i}`}
-                  onClick={() => openLink(`https://getgems.io/?search=${encodeURIComponent(c)}`)}
+                  onClick={() => {
+                    const url = `https://getgems.io/?search=${encodeURIComponent(
+                      c
+                    )}`;
+                    const ok = window.confirm(
+                      "Are you sure you want to open the collection on GetGems?"
+                    );
+                    if (ok) openLink(url);
+                  }}
                   style={{
                     background: c,
                     borderRadius: 12,
@@ -118,10 +133,32 @@ export default function ProfilePage() {
                     cursor: "pointer",
                   }}
                 >
-                  <Text style={{ color: isColorDark(c) ? "#FFFFFF" : "#000000" }}>{c}</Text>
+                  <Text
+                    style={{ color: isColorDark(c) ? "#FFFFFF" : "#000000" }}
+                  >
+                    {c}
+                  </Text>
                 </div>
               ))}
             </div>
+          </Section>
+        )}
+
+        {!wallet && (
+          <Section>
+            <Placeholder
+              header="Wallet not connected"
+              description="Connect your wallet to display your colours"
+            />
+          </Section>
+        )}
+
+        {wallet && colors.length === 0 && (
+          <Section>
+            <Placeholder
+              header="No colours yet"
+              description="You don't have any colours yet. Buy one to get started."
+            />
           </Section>
         )}
       </List>

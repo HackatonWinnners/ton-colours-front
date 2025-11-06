@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, useRef } from "react";
 import CustomColorPicker from "./CustomColorPicker";
-import { List, Button, Text } from "@telegram-apps/telegram-ui";
+import { List, Button, Text, Title } from "@telegram-apps/telegram-ui";
 import { Page } from "@/components/Page.tsx";
 import { useTonWallet, useTonConnectUI } from "@tonconnect/ui-react";
 import { miniApp, isColorDark, useLaunchParams } from "@tma.js/sdk-react";
@@ -82,6 +82,9 @@ export default function HomePage() {
   return (
     <Page back={false}>
       <List>
+        <Title level="1" style={{ textAlign: "center" }}>
+          TON Colours
+        </Title>
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           <div
             style={{
@@ -198,13 +201,13 @@ export default function HomePage() {
             position: "fixed",
             left: 0,
             right: 0,
-            bottom: "calc(45px + env(safe-area-inset-bottom))",
+            bottom: "calc(84px + env(safe-area-inset-bottom))",
             padding: "12px 16px",
             zIndex: 100,
           }}
         >
           <Button
-            style={{ width: "100%" }}
+            style={{ width: "100%", padding: "16px 20px", fontSize: 18 }}
             disabled={!wallet || !isHexValid}
             onClick={() => {
               onMint();

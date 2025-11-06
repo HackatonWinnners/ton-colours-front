@@ -76,18 +76,25 @@ export async function init(options: {
   if (viewport.mount.isAvailable()) {
     viewport.mount().then(async () => {
       viewport.bindCssVars();
-      try { viewport.expand(); } catch {}
-      try {
-        if (viewport.requestFullscreen.isAvailable()) {
-          await viewport.requestFullscreen();
-        }
-      } catch {}
-      try {
-        const tg = (window as any)?.Telegram?.WebApp;
-        if (tg && typeof tg.disableVerticalSwipe === 'function') {
+
+      const tg = (window as any).Telegram?.WebApp;
+      const apply = () => {
+        if (typeof tg?.disableVerticalSwipe === "function")
           tg.disableVerticalSwipe();
+        else if (typeof (tg as any)?.disableVerticalSwipes === "function")
+          (tg as any).disableVerticalSwipes();
+        if (typeof tg?.lockOrientation === "function") {
+          try {
+            tg.lockOrientation();
+          } catch {}
         }
-      } catch {}
+        try {
+          (viewport as any).requestFullscreen();
+        } catch {}
+      };
+
+      tg?.ready?.();
+      apply();
     });
   }
 }

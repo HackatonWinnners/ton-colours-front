@@ -1,6 +1,8 @@
 import { Link } from "@/components/Link/Link.tsx";
+import { useLocation } from "react-router-dom";
 
 export default function BottomNav() {
+  const { pathname } = useLocation();
   return (
     <nav
       style={{
@@ -10,8 +12,10 @@ export default function BottomNav() {
         right: 0,
         background: "var(--tg-theme-secondary-bg-color, #f5f5f5)",
         borderTop: "1px solid rgba(0,0,0,0.08)",
-        padding: 8,
+        padding: 12,
+        minHeight: 64,
         display: "flex",
+        alignItems: "center",
         justifyContent: "space-around",
         color: "var(--tg-theme-text-color, #111)",
       }}
@@ -19,13 +23,21 @@ export default function BottomNav() {
       <Link
         to="/"
         aria-label="Home"
-        style={{ textDecoration: "none", color: "inherit" }}
+        style={{
+          textDecoration: "none",
+          color:
+            pathname === "/"
+              ? "var(--tg-theme-button-color, #007AFF)"
+              : "var(--tg-theme-text-color, #111)",
+          opacity: pathname === "/" ? 1 : 0.7,
+        }}
       >
         <svg
-          width="24"
-          height="24"
+          width="28"
+          height="28"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
+          style={{ transform: pathname === "/" ? "scale(1.1)" : "scale(1.0)" }}
         >
           <path
             d="M3 10.5L12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-10.5z"
@@ -36,13 +48,21 @@ export default function BottomNav() {
       <Link
         to="/profile"
         aria-label="Profile"
-        style={{ textDecoration: "none", color: "inherit" }}
+        style={{
+          textDecoration: "none",
+          color:
+            pathname === "/profile"
+              ? "var(--tg-theme-button-color, #007AFF)"
+              : "var(--tg-theme-text-color, #111)",
+          opacity: pathname === "/profile" ? 1 : 0.7,
+        }}
       >
         <svg
-          width="24"
-          height="24"
+          width="28"
+          height="28"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
+          style={{ transform: pathname === "/profile" ? "scale(1.1)" : "scale(1.0)" }}
         >
           <circle cx="12" cy="8" r="4" fill="currentColor" />
           <path d="M4 21c0-4 4-7 8-7s8 3 8 7" fill="currentColor" />
@@ -51,13 +71,21 @@ export default function BottomNav() {
       <Link
         to="/launch-params"
         aria-label="Search"
-        style={{ textDecoration: "none", color: "inherit" }}
+        style={{
+          textDecoration: "none",
+          color:
+            pathname === "/launch-params"
+              ? "var(--tg-theme-button-color, #007AFF)"
+              : "var(--tg-theme-text-color, #111)",
+          opacity: pathname === "/launch-params" ? 1 : 0.7,
+        }}
       >
         <svg
-          width="24"
-          height="24"
+          width="28"
+          height="28"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
+          style={{ transform: pathname === "/launch-params" ? "scale(1.1)" : "scale(1.0)" }}
         >
           <circle
             cx="11"
@@ -80,13 +108,21 @@ export default function BottomNav() {
       <Link
         to="/theme-params"
         aria-label="Menu"
-        style={{ textDecoration: "none", color: "inherit" }}
+        style={{
+          textDecoration: "none",
+          color:
+            pathname === "/theme-params"
+              ? "var(--tg-theme-button-color, #007AFF)"
+              : "var(--tg-theme-text-color, #111)",
+          opacity: pathname === "/theme-params" ? 1 : 0.7,
+        }}
       >
         <svg
-          width="24"
-          height="24"
+          width="28"
+          height="28"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
+          style={{ transform: pathname === "/theme-params" ? "scale(1.1)" : "scale(1.0)" }}
         >
           <line
             x1="4"
