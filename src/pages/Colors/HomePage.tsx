@@ -206,7 +206,7 @@ export default function HomePage() {
           <Button
             style={{ width: "100%" }}
             disabled={!wallet || !isHexValid}
-            onClick={(e) => {
+            onClick={() => {
               onMint();
             }}
           >
