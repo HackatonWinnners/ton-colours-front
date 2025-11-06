@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import CustomColorPicker from "./CustomColorPicker";
 import { List, Button, Text, Title } from "@telegram-apps/telegram-ui";
 import { Page } from "@/components/Page.tsx";
@@ -25,6 +26,7 @@ export default function HomePage() {
   const [isEditing, setIsEditing] = useState(false);
   const lp = useLaunchParams();
   const isMobile = ["ios", "android"].includes(lp.tgWebAppPlatform);
+  const navigate = useNavigate();
 
   const colorForUi = useMemo(() => normalizeHex(hex), [hex]);
   const isHexValid = useMemo(() => /^#[0-9A-Fa-f]{6}$/.test(hex.trim()), [hex]);
@@ -211,8 +213,22 @@ export default function HomePage() {
         >
           <Button
             style={{ width: "100%", height: "100%", padding: "16px 20px", fontSize: 18 }}
-            disabled={!wallet || !isHexValid}
-            onClick={() => {
+            disabled={!isHexValid}
+            onClick={async () => {
+              if (!wallet) {
+                try {
+                  const tg = (window as any).Telegram?.WebApp;
+                  if (typeof tg?.showAlert === "function") {
+                    tg.showAlert("Please connect your wallet to continue");
+                  } else {
+                    alert("Please connect your wallet to continue");
+                  }
+                } catch {
+                  alert("Please connect your wallet to continue");
+                }
+                navigate("/profile");
+                return;
+              }
               onMint();
             }}
           >
