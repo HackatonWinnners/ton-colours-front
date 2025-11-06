@@ -193,6 +193,9 @@ export default function HomePage() {
             </Text>
           )}
         </div>
+        <Text style={{ textAlign: "center", opacity: 0.8, marginBottom: 12 }}>
+          *Mint a colour and get a unique sticker pack and emoji pack in the same colour.
+        </Text>
         {!isMobile || !isEditing ? <div style={{ height: 72 }} /> : null}
       </List>
       {(!isMobile || !isEditing) && (
@@ -207,7 +210,7 @@ export default function HomePage() {
           }}
         >
           <Button
-            style={{ width: "100%", padding: "16px 20px", fontSize: 18 }}
+            style={{ width: "100%", height: "100%", padding: "16px 20px", fontSize: 18 }}
             disabled={!wallet || !isHexValid}
             onClick={() => {
               onMint();

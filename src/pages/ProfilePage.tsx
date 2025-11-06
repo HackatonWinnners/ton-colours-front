@@ -1,7 +1,13 @@
 import { useMemo, useEffect, useState } from "react";
 import { initData, useSignal, openLink, isColorDark } from "@tma.js/sdk-react";
 import { TonConnectButton, useTonWallet } from "@tonconnect/ui-react";
-import { List, Section, Title, Text, Placeholder } from "@telegram-apps/telegram-ui";
+import {
+  List,
+  Section,
+  Title,
+  Text,
+  Placeholder,
+} from "@telegram-apps/telegram-ui";
 import { Page } from "@/components/Page.tsx";
 
 export default function ProfilePage() {
